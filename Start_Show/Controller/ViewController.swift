@@ -7,9 +7,22 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    let categories = ["Action", "Adventure", "Anime", "Children", "Family", "Clasic", "Comedies", "Documentaries", "Drama", "Horror", "Music", "Romantic","Sci-fi", "Fantasy", "Sports", "Thrillers", "TV Shows"]
+
+    
+    @IBOutlet weak var categoryCollectionView: UICollectionView! {
+        didSet {
+            
+            categoryCollectionView.dataSource = self
+            categoryCollectionView.delegate = self
+        }
+    }
+    
+    let categories = ["Action", "Adventure", "Anime", "Children", "Clasic", "Comedies", "Documentaries", "Drama", "Family", "Fantasy", "Horror", "Music", "Romantic", "Sci-fi", "Sports", "TV Shows", "Thrillers"]
+    
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         categories.count
@@ -17,7 +30,15 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.collectionReusableCellIdFor.categories, for: indexPath)
+        
+        if let categoryCell = cell as? CategorieCollectionViewCell {
+            let categoryTitle = categoryCell.categoryButtom
+            categoryTitle?.setTitle(categories[indexPath.row], for: .normal)
+          
+        }
+        
+        
         return cell
     }
     
@@ -28,6 +49,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+      
+        
+        
     }
 
 
